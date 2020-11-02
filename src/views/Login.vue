@@ -10,7 +10,7 @@
                   placeholder="请输入内容" prefix-icon="el-icon-search"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary">登录</el-button>
+        <el-button type="primary" @click="login">登录</el-button>
         <el-button type="primary" @click="resetLoginForm">重置</el-button>
       </el-form-item>
     </el-form>
@@ -42,7 +42,13 @@ export default {
   methods: {
     resetLoginForm(){
       this.$refs.loginFormRef.resetFields()
+    },
+    login() {
+      this.$refs.loginFormRef.validate((valid)=> {
+        if(!valid) return
 
+        console.log(valid);
+      })
     }
   }
 }
