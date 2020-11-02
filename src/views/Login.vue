@@ -54,8 +54,8 @@ export default {
           this.$message.error("登录失败")
           return
         }
-        window.sessionStorage.setItem("token",res.data.token)
         this.$message.success("登录成功")
+        window.sessionStorage.setItem("token",res.data.token)
         // 表单提交成功后的页面挑战
         this.$router.push("/Home")
       })
