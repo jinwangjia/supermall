@@ -24,8 +24,8 @@ export default {
   data () {
     return {
       form: {
-        username: 'aaa',
-        password: 'bbb'
+        username: 'admin',
+        password: '123456'
       },
       rules: {
         username: [
@@ -34,7 +34,7 @@ export default {
         ],
         password: [
           { required: true, message: '请输入密码', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { min: 3, max: 6, message: '长度在 3 到 6 个字符', trigger: 'blur' }
         ]
       }
     }
@@ -44,10 +44,17 @@ export default {
       this.$refs.loginFormRef.resetFields()
     },
     login() {
-      this.$refs.loginFormRef.validate((valid)=> {
-        if(!valid) return
-
-        console.log(valid);
+      //数据验证，通过在validate方法中传入一个回调函数来实现
+      //回调函数只有一个参数，框架会把前端的验证结果通过这个参数传递过来。
+      //我们可以通过判断这个参数来界定通过和不通过的业务流程
+      this.$refs.loginFormRef.validate(async (valid)=> {
+        if(!valid)
+          return
+        let {data:res} = await this.$http.post("login",this.form);
+        if(res.meta.status!==200) {
+          return console.log("登录失败")
+        }
+        window.sessionStorage.setItem("token",res.data.token)
       })
     }
   }
