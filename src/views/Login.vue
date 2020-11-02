@@ -14,7 +14,6 @@
         <el-button type="primary" @click="resetLoginForm">重置</el-button>
       </el-form-item>
     </el-form>
-
   </div>
 </template>
 
@@ -52,9 +51,13 @@ export default {
           return
         let {data:res} = await this.$http.post("login",this.form);
         if(res.meta.status!==200) {
-          return console.log("登录失败")
+          this.$message.error("登录失败")
+          return
         }
         window.sessionStorage.setItem("token",res.data.token)
+        this.$message.success("登录成功")
+        // 表单提交成功后的页面挑战
+        this.$router.push("/Home")
       })
     }
   }
