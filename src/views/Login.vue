@@ -20,7 +20,7 @@
 <script>
 export default {
   name: 'Login',
-  data () {
+  data() {
     return {
       form: {
         username: 'admin',
@@ -28,34 +28,34 @@ export default {
       },
       rules: {
         username: [
-          { required: true, message: '请输入用户名称', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          {required: true, message: '请输入用户名称', trigger: 'blur'},
+          {min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur'}
         ],
         password: [
-          { required: true, message: '请输入密码', trigger: 'blur' },
-          { min: 3, max: 6, message: '长度在 3 到 6 个字符', trigger: 'blur' }
+          {required: true, message: '请输入密码', trigger: 'blur'},
+          {min: 3, max: 6, message: '长度在 3 到 6 个字符', trigger: 'blur'}
         ]
       }
     }
   },
   methods: {
-    resetLoginForm(){
+    resetLoginForm() {
       this.$refs.loginFormRef.resetFields()
     },
     login() {
       //数据验证，通过在validate方法中传入一个回调函数来实现
       //回调函数只有一个参数，框架会把前端的验证结果通过这个参数传递过来。
       //我们可以通过判断这个参数来界定通过和不通过的业务流程
-      this.$refs.loginFormRef.validate(async (valid)=> {
-        if(!valid)
+      this.$refs.loginFormRef.validate(async (valid) => {
+        if (!valid)
           return
-        let {data:res} = await this.$http.post("login",this.form);
-        if(res.meta.status!==200) {
+        let {data: res} = await this.$http.post("login", this.form);
+        if (res.meta.status !== 200) {
           this.$message.error("登录失败")
           return
         }
         this.$message.success("登录成功")
-        window.sessionStorage.setItem("token",res.data.token)
+        window.sessionStorage.setItem("token", res.data.token)
         // 表单提交成功后的页面挑战
         this.$router.push("/Home")
       })
