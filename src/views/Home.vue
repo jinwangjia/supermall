@@ -10,19 +10,22 @@
           class="el-menu-vertical-demo"
           background-color="#545c64"
           text-color="#fff"
-          active-text-color="#ffd04b">
-          <el-submenu :index="item.id+''" v-for="item in menuList" :key="item.id">
+          active-text-color="#ffd04b"
+          router="true">
+          <el-submenu :index="''+item.path+''" v-for="item in menuList" :key="item.id">
             <template slot="title">
               <i class="el-icon-location"></i>
               <span>{{ item.authName }}</span>
             </template>
-            <el-menu-item class="el-icon-menu" :index="item2.id+''" v-for="item2 in item.children" :key="item2.id">
+            <el-menu-item class="el-icon-menu" :index="''+item2.path+''" v-for="item2 in item.children" :key="item2.id">
               {{ item2.authName }}
             </el-menu-item>
           </el-submenu>
         </el-menu>
       </el-aside>
-      <el-main>Main</el-main>
+      <el-main>
+        <router-view />
+      </el-main>
     </el-container>
   </el-container>
 </template>
