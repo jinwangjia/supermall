@@ -16,7 +16,9 @@ import {
   Main,
   Menu,
   MenuItem,
-  Submenu
+  Submenu,
+  Card,
+  Row, Col, Table, TableColumn, Switch
 } from 'element-ui'
 
 Vue.use(Form)
@@ -30,6 +32,12 @@ Vue.use(Main)
 Vue.use(Menu)
 Vue.use(MenuItem)
 Vue.use(Submenu)
+Vue.use(Card)
+Vue.use(Row)
+Vue.use(Col)
+Vue.use(Table)
+Vue.use(TableColumn)
+Vue.use(Switch)
 
 Vue.config.productionTip = false
 axios.defaults.baseURL = 'https://www.liulongbin.top:8888/api/private/v1/'

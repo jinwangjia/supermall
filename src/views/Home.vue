@@ -6,12 +6,13 @@
     <el-container>
       <el-aside width="200px">
         <el-menu
-          default-active="2"
+          @select="onselect"
+          :default-active="defaultActive"
           class="el-menu-vertical-demo"
           background-color="#545c64"
           text-color="#fff"
           active-text-color="#ffd04b"
-          router="true">
+          :router=true>
           <el-submenu :index="''+item.path+''" v-for="item in menuList" :key="item.id">
             <template slot="title">
               <i class="el-icon-location"></i>
@@ -35,11 +36,13 @@ export default {
   name: 'Home',
   data() {
     return {
-      menuList: []
+      menuList: [],
+      defaultActive: ''
     }
   },
   created() {
     this.getMenuList()
+    this.defaultActive = window.sessionStorage.getItem('default-active')
   },
   methods: {
     logOut() {
@@ -51,7 +54,10 @@ export default {
       if (menus.meta.status !== 200)
         return this.$message.error(menus.meta.msg)
       this.menuList = menus.data
-      console.log(menus.data)
+    },
+    onselect(index) {
+      window.sessionStorage.setItem('default-active', index)
+      this.defaultActive = index
     }
   }
 }
