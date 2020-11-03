@@ -43,11 +43,9 @@
           header-align="center"
           align="center"
           label="状态">
-          <!--          作用域插槽-->
+          <!--作用域插槽-->
           <template slot-scope="scope">
-            <el-switch
-              v-model="scope.row.mg_state"
-              disabled>
+            <el-switch v-model="scope.row.mg_state" @change="changeUserStatus(scope.row)">
             </el-switch>
           </template>
         </el-table-column>
@@ -105,20 +103,27 @@ export default {
       this.users = users.data.users
       this.total = users.data.total
       this.queryInfo.pagenum = users.data.pagenum
-      console.log(users.data)
-      console.log(this.users)
-      console.log(this.total)
     },
     handleSizeChange(val) {
       this.queryInfo.pagesize = val
       this.queryInfo.pagenum = 1
       this.getUserList()
-      console.log(`每页 ${val} 条`)
     },
     handleCurrentChange(val) {
       this.queryInfo.pagenum = val
       this.getUserList()
-      console.log(`当前页: ${val}`)
+    },
+    async changeUserStatus(userInfo) {
+      console.log(userInfo)
+      let { data: res } = await this.$http.put(`/users/${userInfo.id}/state/${userInfo.mg_state}`)
+      console.log(res)
+      console.log(res.meta)
+      if (res.meta.status != 200) {
+        userInfo.mg_state = !userInfo.mg_state
+        this.$message.error(res.data.meta.msg)
+      } else {
+        this.$message.success('成功')
+      }
     }
   },
   created() {
