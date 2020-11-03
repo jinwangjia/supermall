@@ -28,12 +28,12 @@ export default {
       },
       rules: {
         username: [
-          {required: true, message: '请输入用户名称', trigger: 'blur'},
-          {min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur'}
+          { required: true, message: '请输入用户名称', trigger: 'blur' },
+          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ],
         password: [
-          {required: true, message: '请输入密码', trigger: 'blur'},
-          {min: 3, max: 6, message: '长度在 3 到 6 个字符', trigger: 'blur'}
+          { required: true, message: '请输入密码', trigger: 'blur' },
+          { min: 3, max: 6, message: '长度在 3 到 6 个字符', trigger: 'blur' }
         ]
       }
     }
@@ -49,15 +49,15 @@ export default {
       this.$refs.loginFormRef.validate(async (valid) => {
         if (!valid)
           return
-        let {data: res} = await this.$http.post("login", this.form);
+        let { data: res } = await this.$http.post('login', this.form)
         if (res.meta.status !== 200) {
-          this.$message.error("登录失败")
+          this.$message.error('登录失败')
           return
         }
-        this.$message.success("登录成功")
-        window.sessionStorage.setItem("token", res.data.token)
+        this.$message.success('登录成功')
+        window.sessionStorage.setItem('token', res.data.token)
         // 表单提交成功后的页面挑战
-        this.$router.push("/Home")
+        this.$router.push('/Home')
       })
     }
   }

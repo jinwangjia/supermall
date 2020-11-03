@@ -7,11 +7,11 @@
 
 <script>
 export default {
-  name: "Home",
+  name: 'Home',
   methods: {
     logOut() {
       window.sessionStorage.clear()
-      this.$router.push("/Login")
+      this.$router.push('/Login')
     }
   }
 }
