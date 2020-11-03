@@ -43,6 +43,7 @@
           header-align="center"
           align="center"
           label="状态">
+          <!--          作用域插槽-->
           <template slot-scope="scope">
             <el-switch
               v-model="scope.row.mg_state"
@@ -55,10 +56,31 @@
           label="创建时间">
         </el-table-column>
         <el-table-column
+          width="200px"
           prop="create_time"
           label="操作">
+          <template>
+            <el-tooltip effect="dark" content="修改" placement="top">
+              <el-button type="primary" icon="el-icon-edit" size="mini"></el-button>
+            </el-tooltip>
+            <el-tooltip effect="dark" content="详情" placement="top">
+              <el-button type="info" icon="el-icon-s-grid" size="mini"></el-button>
+            </el-tooltip>
+            <el-tooltip effect="dark" content="删除" placement="top">
+              <el-button type="danger" icon="el-icon-delete" size="mini"></el-button>
+            </el-tooltip>
+          </template>
         </el-table-column>
       </el-table>
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="queryInfo.pagenum"
+        :page-sizes="[5, 10, 30, 40]"
+        :page-size="queryInfo.pagesize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total">
+      </el-pagination>
     </el-card>
   </div>
 </template>
@@ -71,19 +93,36 @@ export default {
       queryInfo: {
         query: '',
         pagenum: 1,
-        pagesize: 20
+        pagesize: 5
       },
-      pagenum: 0,
       total: 0,
       users: []
     }
   },
-  async created() {
-    let { data: users } = await this.$http.get('users', { params: this.queryInfo })
-    this.users = users.data.users
-    this.pagenum = users.pagenum
-    this.total = users.Total
-    console.log(this.users)
+  methods: {
+    async getUserList() {
+      let { data: users } = await this.$http.get('users', { params: this.queryInfo })
+      this.users = users.data.users
+      this.total = users.data.total
+      this.queryInfo.pagenum = users.data.pagenum
+      console.log(users.data)
+      console.log(this.users)
+      console.log(this.total)
+    },
+    handleSizeChange(val) {
+      this.queryInfo.pagesize = val
+      this.queryInfo.pagenum = 1
+      this.getUserList()
+      console.log(`每页 ${val} 条`)
+    },
+    handleCurrentChange(val) {
+      this.queryInfo.pagenum = val
+      this.getUserList()
+      console.log(`当前页: ${val}`)
+    }
+  },
+  created() {
+    this.getUserList()
   }
 }
 </script>
